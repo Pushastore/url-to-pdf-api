@@ -105,6 +105,7 @@ async function render(_opts = {}) {
 
     if (opts.html) {
       logger.info('Set HTML ..');
+      await page.setBypassCSP(true);
       await page.setContent(opts.html, opts.goto);
     } else {
       logger.info(`Goto url ${opts.url} ..`);
