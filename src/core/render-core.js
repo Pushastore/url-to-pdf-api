@@ -17,7 +17,8 @@ async function createBrowser(opts) {
     browserOpts.executablePath = config.BROWSER_EXECUTABLE_PATH;
   }
   browserOpts.headless = !config.DEBUG_MODE;
-  browserOpts.args = ['--disable-gpu', '--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security'];
+  browserOpts.args = ['--disable-gpu', '--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security' , '--allow-running-insecure-content'];
+  //
   return puppeteer.launch(browserOpts);
 }
 
@@ -104,9 +105,20 @@ async function render(_opts = {}) {
     }
 
     if (opts.html) {
-      logger.info('Set HTML ..');
+      logger.info('Bypass CSP 8 ..');
       await page.setBypassCSP(true);
+      //await page.setCacheEnabled(true);
+
+      if (opts.goto.base) {
+        logger.info(`Goto base ${opts.goto.base} ..`);
+        await page.goto(opts.goto.base);
+      }
+      //await.page.setRequestInterception(true);
+      //page.setExtraHTTPHeaders(headers)
+      logger.info('Set HTML ..');
+      //await page.goto(`data:text/html,HELLO!`, opts.goto);
       await page.setContent(opts.html, opts.goto);
+      logger.info('Set HTML done!');
     } else {
       logger.info(`Goto url ${opts.url} ..`);
       await page.goto(opts.url, opts.goto);
