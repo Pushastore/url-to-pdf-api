@@ -103,6 +103,7 @@ function getOptsFromQuery(query) {
         left: query['pdf.margin.left'],
       },
       printBackground: query['pdf.printBackground'],
+      preferCSSPageSize: query['pdf.preferCSSPageSize'],
     },
     screenshot: {
       fullPage: query['screenshot.fullPage'],
